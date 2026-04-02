@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Get, Patch, Param } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { Prisma } from '../generated/client';
 
@@ -17,7 +25,15 @@ export class UserController {
   }
 
   @Patch('/:id')
-  async editUser(@Param('id') id: string, @Body() dataUser: Prisma.UserUpdateInput) {
+  async editUser(
+    @Param('id') id: string,
+    @Body() dataUser: Prisma.UserUpdateInput,
+  ) {
     return this.userService.editUser(id, dataUser);
+  }
+
+  @Delete('/:id')
+  async deleteUser(@Param('id') id: string) {
+    return this.userService.deleteUser(id);
   }
 }

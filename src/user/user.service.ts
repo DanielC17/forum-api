@@ -38,4 +38,21 @@ export class UserService {
       throw new Error('User not found or update failed');
     }
   }
+
+  async deleteUser(id: string): Promise<User> {
+    const numericId = Number(id);
+    try {
+      this.logger.log(`Deleting user with id: ${numericId}`);
+
+      const user = await this.db.user.delete({
+        where: { id: numericId },
+      });
+
+      return user;
+    } catch (error) {
+      this.logger.error(`Error deleting user ${numericId}`, error);
+
+      throw new Error('User not found or delete failed');
+    }
+  }
 }
