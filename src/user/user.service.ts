@@ -8,6 +8,17 @@ export class UserService {
   constructor(private db: PrismaService) {}
   private readonly logger = new Logger(UserService.name, { timestamp: true });
 
+  async user(
+    UserWhereUniqueInput: Prisma.UserWhereUniqueInput,
+  ): Promise<User | null> {
+    this.logger.log(
+      `Fetching user with criteria: ${JSON.stringify(UserWhereUniqueInput)}`,
+    );
+    return this.db.user.findUnique({
+      where: UserWhereUniqueInput,
+    });
+  }
+
   async createUser(dataUser: Prisma.UserCreateInput): Promise<User> {
     this.logger.log(`Creating user with email: ${dataUser.email}`);
     const passwordHash = await bcrypt.hash(dataUser.password, 10);
